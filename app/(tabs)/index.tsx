@@ -34,7 +34,7 @@ const styles = StyleSheet.create({
 
   content:{
     flex:1,
-    alignItems: 'start',
+    alignItems: 'flex-start',
     justifyContent: 'center',
     marginLeft: 40,
     marginTop: 20,
