@@ -1,29 +1,40 @@
-import { DarkTheme, DefaultTheme, ThemeProvider } from '@react-navigation/native';
-import { Stack } from 'expo-router';
-import { StatusBar } from 'expo-status-bar';
-import 'react-native-reanimated';
+import {
+    DarkTheme,
+    DefaultTheme,
+    ThemeProvider,
+} from "@react-navigation/native";
+import { Stack } from "expo-router";
+import { StatusBar } from "expo-status-bar";
+import React from "react";
+import { PaperProvider } from "react-native-paper";
+import "react-native-reanimated";
 
-import { useColorScheme } from '@/hooks/use-color-scheme';
+import { useColorScheme } from "@/hooks/use-color-scheme";
+import { SafeAreaView } from "react-native-safe-area-context";
 import { Poppins_400Regular, Poppins_600SemiBold, useFonts } from '@expo-google-fonts/poppins';
 
 
-export const unstable_settings = {
-  anchor: '(tabs)',
-};
-
 export default function RootLayout() {
-  const colorScheme = useColorScheme();
+    const colorScheme = useColorScheme();
 
-  const [fontsLoaded] = useFonts({ Poppins_400Regular, Poppins_600SemiBold });
-  if (!fontsLoaded) return null;
+    const [fontsLoaded] = useFonts({ Poppins_400Regular, Poppins_600SemiBold });
+    if (!fontsLoaded) return null;
 
-  return (
-    <ThemeProvider value={colorScheme === 'dark' ? DarkTheme : DefaultTheme}>
-      <Stack>
-        <Stack.Screen name="(tabs)" options={{ headerShown: false }} />
-        <Stack.Screen name="modal" options={{ presentation: 'modal', title: 'Modal' }} />
-      </Stack>
-      <StatusBar style="auto" />
-    </ThemeProvider>
-  );
+    return (
+        <PaperProvider>
+            <ThemeProvider value={colorScheme === "dark" ? DarkTheme : DefaultTheme}>
+                <SafeAreaView style={{ flex: 1 }}>
+                    <Stack>
+                        <Stack.Screen
+                            name="(auth)"
+                            options={{
+                                headerShown: false,
+                            }}
+                        />
+                    </Stack>
+                    <StatusBar style="auto" />
+                </SafeAreaView>
+            </ThemeProvider>
+        </PaperProvider>
+    );
 }

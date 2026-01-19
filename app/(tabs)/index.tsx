@@ -1,59 +1,89 @@
-import { Pressable, StyleSheet, Text, View } from "react-native";
-import { SafeAreaView } from "react-native-safe-area-context";
+import { router } from "expo-router";
+import { useState } from "react";
+import { Platform, Pressable, StyleSheet, Text, View } from "react-native";
+import { Appbar } from "react-native-paper";
 
 export default function HomeScreen() {
 
+  const [count, setCount] = useState(0);
+
+  const increment = () => {
+    setCount(count + 1);
+  }
+
+  const reset = () => {
+    setCount(0);
+  }
+
+  const handleLogout = () => {
+    router.replace("/(auth)/login");
+  }
+
+  const MORE_ICON = Platform.OS === "ios" ? "dots-horizontal" : "dots-vertical";
   
   return (
     <>
-      <SafeAreaView style={{flex: 1}}>
+        <Appbar.Header style={styles.header}>
+          <Appbar.Content title="Hello world" subtitle={"Subtitle"} />
+          <Appbar.Action icon="magnify" onPress={() => {}} />
+          <Appbar.Action icon={MORE_ICON} onPress={() => {}} />
+        </Appbar.Header>
 
         <View style={styles.container}>
-          <View style={styles.content}>
-            <Text style={styles.title}>SIGN IN</Text>
-            <Text style={{color: 'white', fontFamily: 'Poppins_400Regular'}}>Sign in with email address</Text>
-          </View>
+          <Text style={{fontSize:20}}>El contador es:</Text>
+          <Text style={{fontSize:30, marginTop:30,marginBottom:70}}>{count}</Text>
 
           <Pressable
-            style={styles.primaryButton}
+            onPress={increment}
+            onLongPress={reset}
+            style={({ pressed }) => [
+              styles.primaryButton, 
+              pressed && styles.primaryButtonPressed]}
           >
-            <Text style={{color: 'white'}}>Sign up</Text>
-          </Pressable>
+            <Text style={{color: 'white'}}>Pressable!!</Text>
+          </Pressable>    
+
+           <Pressable style={styles.logoutButton} onPress={handleLogout}>
+            <Text>Cerrar sesión</Text>
+          </Pressable>        
         </View>
-      </SafeAreaView>
     </>
-  );
-}
+  )
+};
 
 const styles = StyleSheet.create({
   container:{
     flex: 1,
-    backgroundColor: '#240B48',
-    fontSize: 50,
-  },
-
-  content:{
-    flex:1,
-    alignItems: 'flex-start',
+    backgroundColor: '#c97decc7',
     justifyContent: 'center',
-    marginLeft: 40,
-    marginTop: 20,
-  },
-
-  title: {
+    alignItems: 'center',
     fontSize: 60,
-    fontFamily: 'Poppins_600SemiBold',
-    fontWeight: '700',
-    color: 'white',
   },
 
   primaryButton:{
-    backgroundColor: '#a180da',
-    marginBottom: 50,
-    borderRadius: 10,
     paddingHorizontal: 20,
-  }
+    paddingVertical: 10,
+    borderRadius: 10,
+    backgroundColor: '#5856d6',
+  },
 
+  primaryButtonPressed:{
+    opacity: 0.75
+  },
 
+  header: {
+    width: '100%',
+    marginTop: 0,
+  },
+
+  logoutButton: {
+    backgroundColor: "#ffffffa2",
+    paddingVertical: 12,
+    paddingHorizontal: 20,
+    borderRadius: 8,
+    marginTop: 150,
+    marginRight: 20,
+    alignSelf: "flex-end",
+    justifyContent: "flex-end",
+  },
 });
-
